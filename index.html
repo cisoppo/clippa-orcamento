@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clippa — Calculadora de Orçamento</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #3B1010;
+      --primary-mid: #5C1A1A;
+      --accent: #C0392B;
+      --bg: #F5F1EE;
+      --card: #FFFFFF;
+      --text: #1A1A1A;
+      --muted: #777;
+      --border: #E2DAD4;
+      --green-bg: #D4EDDA; --green-text: #155724;
+      --yellow-bg: #FFF3CD; --yellow-text: #856404;
+      --red-bg: #F8D7DA; --red-text: #721C24;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 18px 20px 14px;
+      text-align: center;
+    }
+    header h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+    header p { font-size: 0.8rem; opacity: 0.65; margin-top: 3px; letter-spacing: 0.04em; }
+
+    .container { max-width: 660px; margin: 0 auto; padding: 14px 14px 0; }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+
+    .card-title {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+
+    /* Toggle buttons */
+    .toggle-group { display: flex; gap: 8px; }
+    .toggle-btn {
+      flex: 1;
+      padding: 11px 8px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: white;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      color: var(--muted);
+    }
+    .toggle-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+    .toggle-btn .sub { font-size: 0.7rem; font-weight: 500; display: block; opacity: 0.8; margin-top: 2px; }
+
+    /* Fields */
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .hint { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+    input[type="number"], select {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      font-size: 0.98rem;
+      background: white;
+      color: var(--text);
+      transition: border-color 0.2s;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]:focus { outline: none; border-color: var(--primary); }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    /* Switch toggle */
+    .sw-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .sw-row:last-child { border-bottom: none; }
+    .sw-label { font-size: 0.9rem; font-weight: 700; }
+    .sw-desc { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+    .switch { position: relative; width: 46px; height: 26px; flex-shrink: 0; margin-left: 12px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .sw-track {
+      position: absolute; cursor: pointer; inset: 0;
+      background: #D0C8C0; border-radius: 26px; transition: 0.25s;
+    }
+    .sw-track::before {
+      content: ''; position: absolute;
+      height: 20px; width: 20px; left: 3px; bottom: 3px;
+      background: white; border-radius: 50%; transition: 0.25s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .switch input:checked + .sw-track { background: var(--primary); }
+    .switch input:checked + .sw-track::before { transform: translateX(20px); }
+
+    /* Equipment table */
+    .eq-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    .eq-table th {
+      text-align: left; padding: 6px 6px 8px;
+      color: var(--muted); font-size: 0.7rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--border);
+    }
+    .eq-table th:last-child { text-align: right; }
+    .eq-table td { padding: 9px 6px; border-bottom: 1px solid #F0EBE6; vertical-align: middle; }
+    .eq-table tr:last-child td { border-bottom: none; }
+    .eq-table .item-name { font-weight: 600; }
+    .eq-table .item-tag {
+      display: inline-block; font-size: 0.64rem; font-weight: 700;
+      padding: 1px 5px; border-radius: 4px; margin-top: 3px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .tag-shared { background: #EEF2FF; color: #3730A3; }
+    .tag-cam { background: #FEF3C7; color: #92400E; }
+    .eq-table input[type="number"] {
+      width: 82px; padding: 6px 8px; font-size: 0.82rem; border-radius: 7px;
+    }
+    .eq-table .item-total { font-weight: 800; text-align: right; white-space: nowrap; }
+    .eq-table tr.row-disabled td { opacity: 0.3; pointer-events: none; }
+    .eq-table tr.row-disabled .item-total { color: var(--muted); }
+
+    .table-footer {
+      margin-top: 10px; padding-top: 10px;
+      border-top: 2px solid var(--primary);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .table-footer .tf-label { font-weight: 800; font-size: 0.9rem; }
+    .table-footer .tf-val { font-weight: 900; font-size: 1.15rem; color: var(--primary); }
+
+    /* Divider */
+    .divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+    /* Result cards */
+    .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .res-item {
+      background: var(--bg);
+      border-radius: 10px; padding: 13px;
+    }
+    .res-item .rl { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; }
+    .res-item .rv { font-size: 1.2rem; font-weight: 900; }
+    .res-item.span2 { grid-column: span 2; }
+    .res-item.hero {
+      background: var(--primary);
+      color: white; text-align: center; padding: 18px;
+    }
+    .res-item.hero .rl { color: rgba(255,255,255,0.6); }
+    .res-item.hero .rv { font-size: 2rem; }
+
+    /* Gap box */
+    .gap-box {
+      border-radius: 10px; padding: 12px 14px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin: 10px 0;
+    }
+    .gap-box .gl { font-weight: 700; font-size: 0.9rem; }
+    .gap-box .gv { font-weight: 900; font-size: 1.15rem; }
+    .gap-neg { background: #FFF3E0; }
+    .gap-neg .gl, .gap-neg .gv { color: #BF360C; }
+    .gap-pos { background: #E8F5E9; }
+    .gap-pos .gl, .gap-pos .gv { color: #1B5E20; }
+
+    /* ROI bar */
+    .roi-bar-wrap { margin: 14px 0 8px; }
+    .roi-bar-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-bottom: 5px; }
+    .roi-track { height: 10px; background: var(--border); border-radius: 5px; overflow: hidden; }
+    .roi-fill { height: 100%; border-radius: 5px; transition: width 0.4s ease, background 0.4s ease; }
+
+    /* Status pill */
+    .status-pill {
+      border-radius: 9px; padding: 11px 14px;
+      font-size: 0.87rem; font-weight: 700; margin-top: 10px;
+    }
+    .status-pill.good { background: var(--green-bg); color: var(--green-text); }
+    .status-pill.ok   { background: var(--yellow-bg); color: var(--yellow-text); }
+    .status-pill.bad  { background: var(--red-bg); color: var(--red-text); }
+
+    /* Info rows */
+    .info-row { display: flex; justify-content: space-between; padding: 8px 0; }
+    .info-row .il { font-size: 0.87rem; color: var(--muted); font-weight: 600; }
+    .info-row .iv { font-size: 0.87rem; font-weight: 800; }
+
+    /* Parcelamento badge */
+    .parc-badge {
+      background: #EEF2FF; border-radius: 8px;
+      padding: 9px 13px; margin-top: 8px;
+      font-size: 0.83rem; color: #3730A3; font-weight: 700;
+    }
+
+    footer { text-align: center; padding: 24px 16px 8px; font-size: 0.75rem; color: var(--muted); }
+
+    @media (max-width: 400px) {
+      .res-grid { grid-template-columns: 1fr; }
+      .res-item.span2, .res-item.hero { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Clippa</h1>
+  <p>Calculadora de Orçamento de Equipamentos</p>
+</header>
+
+<div class="container">
+
+  <!-- ── CONFIGURAÇÃO ── -->
+  <div class="card">
+    <div class="card-title">Configuração</div>
+
+    <div class="field">
+      <label>Tipo de Sistema</label>
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="btn-multi" onclick="setSystem('multi')">
+          Multi Câmera
+          <span class="sub">R$472–960/quad</span>
+        </button>
+        <button class="toggle-btn" id="btn-antigo" onclick="setSystem('antigo')">
+          Sistema Antigo
+          <span class="sub">R$732–1.100/quad</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Número de Quadras</label>
+      <input type="number" id="courts" value="4" min="1" max="99" oninput="onUpdate()">
+    </div>
+
+    <div class="sw-row">
+      <div>
+        <div class="sw-label">Cliente já tem câmera?</div>
+        <div class="sw-desc">Remove custo das câmeras do orçamento</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="has-cam" onchange="onUpdate()">
+        <span class="sw-track"></span>
+      </label>
+    </div>
+
+    <div class="sw-row">
+      <div>
+        <div class="sw-label">Incluir Placar Digital?</div>
+        <div class="sw-desc">Adiciona hardware do placar por quadra</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="has-placar" onchange="onUpdate()">
+        <span class="sw-track"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- ── EQUIPAMENTOS ── -->
+  <div class="card">
+    <div class="card-title">Equipamentos — Custo Real (Clippa)</div>
+    <p class="hint" style="margin-bottom:14px">Edite os preços conforme cotação atual</p>
+
+    <table class="eq-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th style="text-align:center">Qtd</th>
+          <th>Preço unit.</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="eq-body"></tbody>
+    </table>
+
+    <div class="table-footer">
+      <span class="tf-label">Custo total Clippa</span>
+      <span class="tf-val" id="res-total-cost">—</span>
+    </div>
+  </div>
+
+  <!-- ── RECEITA ── -->
+  <div class="card">
+    <div class="card-title">Cobrança ao Cliente</div>
+
+    <div class="field">
+      <label>Valor cobrado na implementação (por quadra)</label>
+      <input type="number" id="impl-price" value="765" min="0" oninput="onUpdate()">
+      <div class="hint">O que o cliente paga pelos equipamentos</div>
+      <div class="parc-badge" id="parc-badge"></div>
+    </div>
+
+    <div class="field">
+      <label>Parcelamento (nº de parcelas)</label>
+      <input type="number" id="parcelas" value="1" min="1" max="24" oninput="onUpdate()">
+      <div class="hint">1 = à vista &nbsp;|&nbsp; máx. 6x normalmente</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field" style="margin-bottom:0">
+      <label>Mensalidade por quadra (R$/mês)</label>
+      <input type="number" id="monthly" value="190" min="0" oninput="onUpdate()">
+    </div>
+  </div>
+
+  <!-- ── RESULTADO ── -->
+  <div class="card">
+    <div class="card-title">Resultado</div>
+
+    <div class="res-grid">
+      <div class="res-item">
+        <div class="rl">Custo total (Clippa)</div>
+        <div class="rv" id="r-cost">—</div>
+      </div>
+      <div class="res-item">
+        <div class="rl">Receita implementação</div>
+        <div class="rv" id="r-impl">—</div>
+      </div>
+    </div>
+
+    <div id="gap-box"></div>
+
+    <div class="divider"></div>
+
+    <div class="info-row">
+      <span class="il">Receita mensal</span>
+      <span class="iv" id="r-monthly">—</span>
+    </div>
+    <div class="info-row">
+      <span class="il">Custo médio por quadra</span>
+      <span class="iv" id="r-per-court">—</span>
+    </div>
+    <div class="info-row">
+      <span class="il">Receita contrato 12 meses</span>
+      <span class="iv" id="r-contract12">—</span>
+    </div>
+    <div class="info-row">
+      <span class="il">Receita contrato 24 meses</span>
+      <span class="iv" id="r-contract24">—</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="res-item hero" style="border-radius:10px">
+      <div class="rl">Payback do subsídio (ROI)</div>
+      <div class="rv" id="r-roi">—</div>
+    </div>
+
+    <div class="roi-bar-wrap">
+      <div class="roi-bar-labels">
+        <span>0 meses</span>
+        <span id="roi-bar-max">12 meses</span>
+      </div>
+      <div class="roi-track">
+        <div class="roi-fill" id="roi-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="status-pill good" id="status-pill"></div>
+  </div>
+
+</div>
+
+<footer>Clippa © 2026 &nbsp;·&nbsp; Uso interno</footer>
+
+<script>
+  // ── DATA ──────────────────────────────────────────────────────────────────
+
+  const ITEMS = {
+    multi: [
+      { id:'servidor',  name:'Servidor',      tag:'shared', qty: c => 1,              min:1000, max:2000, def:1500 },
+      { id:'camera',    name:'Câmera',         tag:'cam',    qty: c => c,              min:250,  max:600,  def:400  },
+      { id:'botao',     name:'Botoeira',       tag:null,     qty: c => c,              min:25,   max:40,   def:32   },
+      { id:'esp32',     name:'ESP32',          tag:null,     qty: c => c,              min:40,   max:60,   def:50   },
+      { id:'switch',    name:'Switch PoE',     tag:'shared', qty: c => Math.ceil(c/4), min:250,  max:300,  def:275  },
+      { id:'controle',  name:'Controle RF',    tag:null,     qty: c => c,              min:25,   max:35,   def:30   },
+      { id:'receptor',  name:'Receptor RF',    tag:null,     qty: c => c,              min:60,   max:100,  def:80   },
+      { id:'soldagem',  name:'Soldagem fios',  tag:null,     qty: c => c,              min:10,   max:50,   def:30   },
+    ],
+    antigo: [
+      { id:'camera',    name:'Câmera',         tag:'cam',    qty: c => c,              min:550,  max:800,  def:675  },
+      { id:'switch',    name:'Switch PoE',     tag:'shared', qty: c => Math.ceil(c/4), min:250,  max:300,  def:275  },
+      { id:'botao',     name:'Botoeira',       tag:null,     qty: c => c,              min:25,   max:40,   def:32   },
+      { id:'controle',  name:'Controle RF',    tag:null,     qty: c => c,              min:25,   max:35,   def:30   },
+      { id:'receptor',  name:'Receptor RF',    tag:null,     qty: c => c,              min:60,   max:100,  def:80   },
+      { id:'soldagem',  name:'Soldagem fios',  tag:null,     qty: c => c,              min:10,   max:50,   def:30   },
+    ]
+  };
+
+  const PLACAR_ITEM = { id:'placar', name:'Placar Digital', tag:null, qty: c => c, min:500, max:900, def:700 };
+
+  let currentSystem = 'multi';
+
+  // ── HELPERS ───────────────────────────────────────────────────────────────
+
+  function fmt(n) {
+    return 'R$' + Math.round(n).toLocaleString('pt-BR');
+  }
+
+  function getVal(id) {
+    return parseFloat(document.getElementById(id)?.value) || 0;
+  }
+
+  function getActiveItems() {
+    const list = [...ITEMS[currentSystem]];
+    if (document.getElementById('has-placar')?.checked) list.push(PLACAR_ITEM);
+    return list;
+  }
+
+  // ── RENDER TABLE ──────────────────────────────────────────────────────────
+
+  function renderTable() {
+    const courts   = Math.max(1, parseInt(document.getElementById('courts').value) || 1);
+    const hasCam   = document.getElementById('has-cam').checked;
+    const items    = getActiveItems();
+
+    // Save current user-edited prices before wiping DOM
+    const saved = {};
+    items.forEach(it => {
+      const el = document.getElementById('p-' + it.id);
+      if (el) saved[it.id] = el.value;
+    });
+
+    const tbody = document.getElementById('eq-body');
+    tbody.innerHTML = '';
+
+    items.forEach(it => {
+      const disabled = (it.tag === 'cam') && hasCam;
+      const qty      = it.qty(courts);
+      const price    = parseFloat(saved[it.id] ?? it.def);
+      const total    = disabled ? 0 : qty * price;
+
+      let tagHtml = '';
+      if (it.tag === 'shared') tagHtml = '<br><span class="item-tag tag-shared">compartilhado</span>';
+      if (it.tag === 'cam')    tagHtml = '<br><span class="item-tag tag-cam">câmera</span>';
+
+      const tr = document.createElement('tr');
+      if (disabled) tr.classList.add('row-disabled');
+
+      tr.innerHTML = `
+        <td><span class="item-name">${it.name}</span>${tagHtml}</td>
+        <td style="text-align:center;font-weight:700">${qty}</td>
+        <td>
+          <input type="number" id="p-${it.id}" value="${price}" min="0"
+            oninput="recalcTotals()" ${disabled ? 'disabled' : ''}>
+        </td>
+        <td class="item-total" id="tt-${it.id}">${fmt(total)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // ── RECALC (fast path — no re-render) ────────────────────────────────────
+
+  function recalcTotals() {
+    const courts = Math.max(1, parseInt(document.getElementById('courts').value) || 1);
+    const hasCam = document.getElementById('has-cam').checked;
+    const items  = getActiveItems();
+
+    let totalCost = 0;
+    items.forEach(it => {
+      const disabled = (it.tag === 'cam') && hasCam;
+      const qty      = it.qty(courts);
+      const price    = parseFloat(document.getElementById('p-' + it.id)?.value) || 0;
+      const total    = disabled ? 0 : qty * price;
+      totalCost += total;
+      const cell = document.getElementById('tt-' + it.id);
+      if (cell) cell.textContent = fmt(total);
+    });
+
+    updateResults(totalCost);
+  }
+
+  // ── UPDATE RESULTS ────────────────────────────────────────────────────────
+
+  function updateResults(totalCost) {
+    const courts    = Math.max(1, parseInt(document.getElementById('courts').value) || 1);
+    const implPrice = getVal('impl-price');
+    const parcelas  = Math.max(1, parseInt(document.getElementById('parcelas').value) || 1);
+    const monthly   = getVal('monthly');
+
+    const implTotal   = implPrice * courts;
+    const monthlyTotal = monthly * courts;
+    const gap         = totalCost - implTotal;
+
+    // Table footer
+    document.getElementById('res-total-cost').textContent = fmt(totalCost);
+
+    // Parcelamento badge
+    const parcBadge = document.getElementById('parc-badge');
+    if (parcelas > 1) {
+      const parcel = implTotal / parcelas;
+      parcBadge.textContent = `${parcelas}x de ${fmt(parcel)} = ${fmt(implTotal)} total (${courts} quad${courts>1?'s':''})`;
+    } else {
+      parcBadge.textContent = `À vista: ${fmt(implTotal)} total (${courts} quad${courts>1?'s':''})`;
+    }
+
+    // Result grid
+    document.getElementById('r-cost').textContent    = fmt(totalCost);
+    document.getElementById('r-impl').textContent    = fmt(implTotal);
+    document.getElementById('r-monthly').textContent = fmt(monthlyTotal) + '/mês';
+    document.getElementById('r-per-court').textContent = fmt(totalCost / courts) + '/quad';
+    document.getElementById('r-contract12').textContent = fmt(monthlyTotal * 12);
+    document.getElementById('r-contract24').textContent = fmt(monthlyTotal * 24);
+
+    // Gap box
+    const gapBox = document.getElementById('gap-box');
+    if (gap > 0) {
+      gapBox.innerHTML = `<div class="gap-box gap-neg">
+        <span class="gl">Subsídio Clippa (gap)</span>
+        <span class="gv">${fmt(gap)}</span>
+      </div>`;
+    } else {
+      gapBox.innerHTML = `<div class="gap-box gap-pos">
+        <span class="gl">Margem na implementação</span>
+        <span class="gv">+${fmt(Math.abs(gap))}</span>
+      </div>`;
+    }
+
+    // ROI
+    const roiEl  = document.getElementById('r-roi');
+    const fill   = document.getElementById('roi-fill');
+    const pill   = document.getElementById('status-pill');
+    const barMax = document.getElementById('roi-bar-max');
+
+    if (gap <= 0) {
+      roiEl.textContent = 'Imediato';
+      fill.style.width = '0%';
+      fill.style.background = '#27AE60';
+      pill.className = 'status-pill good';
+      pill.textContent = 'Implementação já cobre o custo dos equipamentos — lucro imediato.';
+      return;
+    }
+
+    if (monthlyTotal <= 0) {
+      roiEl.textContent = '—';
+      pill.className = 'status-pill ok';
+      pill.textContent = 'Informe a mensalidade para calcular o payback.';
+      return;
+    }
+
+    const roi = gap / monthlyTotal;
+    roiEl.textContent = roi.toFixed(1) + ' meses';
+
+    const maxRef = Math.max(12, Math.ceil(roi) + 2);
+    barMax.textContent = maxRef + ' meses';
+    const pct = Math.min((roi / maxRef) * 100, 100);
+    fill.style.width = pct + '%';
+
+    if (roi <= 3) {
+      fill.style.background = '#27AE60';
+      pill.className = 'status-pill good';
+      pill.textContent = `Excelente. Payback em ${roi.toFixed(1)} meses — bem dentro do contrato de 12m.`;
+    } else if (roi <= 6) {
+      fill.style.background = '#F39C12';
+      pill.className = 'status-pill ok';
+      pill.textContent = `Bom. Payback em ${roi.toFixed(1)} meses — confortável dentro do contrato de 12m.`;
+    } else if (roi <= 12) {
+      fill.style.background = '#E67E22';
+      pill.className = 'status-pill ok';
+      pill.textContent = `Atenção: payback em ${roi.toFixed(1)} meses — dentro do contrato, mas apertado.`;
+    } else {
+      fill.style.background = '#E74C3C';
+      pill.className = 'status-pill bad';
+      pill.textContent = `Risco: payback em ${roi.toFixed(1)} meses — passa do contrato de 12m. Ajuste o preço.`;
+    }
+  }
+
+  // ── ORCHESTRATE ───────────────────────────────────────────────────────────
+
+  function onUpdate() {
+    renderTable();
+    recalcTotals();
+  }
+
+  function setSystem(s) {
+    currentSystem = s;
+    document.getElementById('btn-multi').classList.toggle('active', s === 'multi');
+    document.getElementById('btn-antigo').classList.toggle('active', s === 'antigo');
+    onUpdate();
+  }
+
+  // ── INIT ──────────────────────────────────────────────────────────────────
+  onUpdate();
+</script>
+
+</body>
+</html>
