@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clippa News — Conceitos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,600;0,700;0,800;0,900;1,900&family=Oswald:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #111;
+      font-family: 'Exo 2', sans-serif;
+      padding: 40px 20px 60px;
+      min-width: 1700px;
+    }
+    h1 {
+      color: #fff;
+      text-align: center;
+      font-size: 1.1rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      opacity: 0.5;
+    }
+    .row {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      align-items: flex-start;
+      margin-top: 32px;
+    }
+    .concept-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .concept-label {
+      color: #FF5E00;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      text-align: center;
+    }
+
+    /* ── STORY BASE ── */
+    .story {
+      width: 300px;
+      height: 533px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════════
+       CONCEITO 1 — PLACAR DIGITAL
+    ══════════════════════════════════════════ */
+    .c1 {
+      background: #080808;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 20px 24px;
+    }
+    .c1 .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .c1 .logo {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: #FF5E00;
+      letter-spacing: 0.04em;
+    }
+    .c1 .logo span { color: #fff; }
+    .c1 .live-dot {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.6rem;
+      color: #FF5E00;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+    .c1 .live-dot::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #FF5E00;
+      animation: blink 1.2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+    .c1 .title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: #FF5E00;
+      letter-spacing: 0.2em;
+      margin-bottom: 18px;
+      opacity: 0.8;
+    }
+    .c1 .scoreboard {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid #FF5E00;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .c1 .sb-header {
+      background: #FF5E00;
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      padding: 6px 12px;
+    }
+    .c1 .sb-header span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.58rem;
+      color: #000;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+    .c1 .sb-row {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      padding: 14px 12px;
+      border-bottom: 1px solid rgba(255,94,0,0.2);
+      align-items: center;
+      transition: background 0.2s;
+    }
+    .c1 .sb-row:last-child { border-bottom: none; }
+    .c1 .sb-date {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      color: #FF5E00;
+      line-height: 1.3;
+    }
+    .c1 .sb-event {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: #fff;
+      line-height: 1.5;
+    }
+    .c1 .sb-flag { font-size: 1rem; display: block; margin-bottom: 4px; }
+    .c1 .bottom {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
+    }
+    .c1 .bottom span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      color: #FF5E00;
+      letter-spacing: 0.14em;
+    }
+    .c1 .bottom::before {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,94,0,0.3);
+    }
+
+    /* ══════════════════════════════════════════
+       CONCEITO 2 — BREAKING NEWS
+    ══════════════════════════════════════════ */
+    .c2 {
+      background: #0f1923;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .c2 .breaking-top {
+      background: #FF5E00;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .c2 .breaking-badge {
+      background: #fff;
+      color: #FF5E00;
+      font-size: 0.55rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      padding: 3px 7px;
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+    .c2 .breaking-text {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .c2 .main-area {
+      flex: 1;
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+    }
+    .c2 .news-logo {
+      font-weight: 900;
+      font-size: 1.3rem;
+      color: #fff;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .c2 .news-logo em { color: #FF5E00; font-style: normal; }
+    .c2 .news-sub {
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .c2 .headline {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    .c2 .news-card {
+      display: flex;
+      gap: 0;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.05);
+    }
+    .c2 .news-stripe {
+      width: 4px;
+      background: #FF5E00;
+      flex-shrink: 0;
+    }
+    .c2 .news-body {
+      padding: 10px 12px;
+      flex: 1;
+    }
+    .c2 .news-date {
+      font-size: 0.6rem;
+      color: #FF5E00;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      margin-bottom: 3px;
+    }
+    .c2 .news-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+    .c2 .news-flag { font-size: 0.85rem; }
+    .c2 .ticker {
+      background: #FF5E00;
+      padding: 8px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .c2 .ticker-inner {
+      display: inline-block;
+      animation: ticker 12s linear infinite;
+      font-size: 0.6rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.12em;
+    }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ══════════════════════════════════════════
+       CONCEITO 3 — DOIS PAÍSES
+    ══════════════════════════════════════════ */
+    .c3 {
+      display: flex;
+      flex-direction: column;
+    }
+    .c3 .c3-header {
+      background: #0d0d0d;
+      padding: 18px 18px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .c3 .c3-logo {
+      font-weight: 900;
+      font-size: 1rem;
+      color: #FF5E00;
+    }
+    .c3 .c3-logo span { color: #fff; }
+    .c3 .c3-week {
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .c3 .split {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .c3 .side {
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .c3 .side-left { background: #001f3f; }
+    .c3 .side-right { background: #1a0a00; }
+    .c3 .side-flag { font-size: 2rem; }
+    .c3 .side-country {
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .c3 .side-left .side-country { color: #4fc3f7; }
+    .c3 .side-right .side-country { color: #FF5E00; }
+    .c3 .divider-h {
+      width: 100%;
+      height: 1px;
+      opacity: 0.2;
+    }
+    .c3 .side-left .divider-h { background: #4fc3f7; }
+    .c3 .side-right .divider-h { background: #FF5E00; }
+    .c3 .event-item { }
+    .c3 .ev-date {
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      margin-bottom: 3px;
+    }
+    .c3 .side-left .ev-date { color: #4fc3f7; }
+    .c3 .side-right .ev-date { color: #FF5E00; }
+    .c3 .ev-name {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+    .c3 .c3-footer {
+      background: #FF5E00;
+      padding: 10px 18px;
+      display: flex;
+      justify-content: center;
+    }
+    .c3 .c3-footer span {
+      font-size: 0.62rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.18em;
+    }
+
+    /* ══════════════════════════════════════════
+       CONCEITO 4 — INGRESSO / TICKET
+    ══════════════════════════════════════════ */
+    .c4 {
+      background: #f5f0e8;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 18px 20px;
+      gap: 12px;
+    }
+    .c4 .c4-logo {
+      font-weight: 900;
+      font-size: 1rem;
+      color: #FF5E00;
+      text-align: center;
+    }
+    .c4 .c4-logo span { color: #1a1a1a; }
+    .c4 .c4-title {
+      font-size: 0.6rem;
+      text-align: center;
+      letter-spacing: 0.18em;
+      color: #888;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .c4 .ticket {
+      background: #fff;
+      border-radius: 8px;
+      position: relative;
+      display: flex;
+      overflow: visible;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.12));
+    }
+    .c4 .ticket::before, .c4 .ticket::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #f5f0e8;
+      z-index: 2;
+    }
+    .c4 .ticket::before { left: -7px; }
+    .c4 .ticket::after { right: -7px; }
+    .c4 .ticket-left {
+      width: 72px;
+      flex-shrink: 0;
+      background: #FF5E00;
+      border-radius: 8px 0 0 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 6px;
+      position: relative;
+    }
+    .c4 .ticket-left::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: repeating-linear-gradient(to bottom, transparent, transparent 4px, rgba(255,255,255,0.3) 4px, rgba(255,255,255,0.3) 8px);
+    }
+    .c4 .t-day {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+    }
+    .c4 .t-month {
+      font-size: 0.55rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .c4 .t-to {
+      font-size: 0.5rem;
+      color: rgba(255,255,255,0.6);
+      margin: 2px 0;
+    }
+    .c4 .ticket-right {
+      flex: 1;
+      padding: 12px 14px;
+    }
+    .c4 .t-flag { font-size: 1rem; margin-bottom: 3px; }
+    .c4 .t-name {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+    .c4 .t-cat {
+      font-size: 0.58rem;
+      color: #999;
+      margin-top: 4px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+    .c4 .c4-footer {
+      text-align: center;
+      margin-top: auto;
+    }
+    .c4 .c4-footer span {
+      font-size: 0.6rem;
+      font-weight: 800;
+      color: #FF5E00;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════════
+       CONCEITO 5 — UM EVENTO POR SLIDE
+    ══════════════════════════════════════════ */
+    .c5 {
+      background: #080808;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+    .c5 .bg-number {
+      position: absolute;
+      font-family: 'Oswald', sans-serif;
+      font-size: 14rem;
+      font-weight: 700;
+      color: rgba(255,94,0,0.06);
+      right: -20px;
+      bottom: 60px;
+      line-height: 1;
+      user-select: none;
+    }
+    .c5 .c5-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 20px 0;
+    }
+    .c5 .c5-logo {
+      font-weight: 900;
+      font-size: 0.95rem;
+      color: #FF5E00;
+    }
+    .c5 .c5-logo span { color: #fff; }
+    .c5 .slide-counter {
+      display: flex;
+      gap: 5px;
+    }
+    .c5 .dot {
+      width: 20px; height: 3px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.2);
+    }
+    .c5 .dot.active { background: #FF5E00; }
+    .c5 .c5-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 20px;
+    }
+    .c5 .c5-tag {
+      font-size: 0.58rem;
+      font-weight: 800;
+      color: #FF5E00;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .c5 .c5-event {
+      font-family: 'Oswald', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+    .c5 .c5-event em {
+      color: #FF5E00;
+      font-style: normal;
+    }
+    .c5 .c5-location {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .c5 .c5-date-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FF5E00;
+      border-radius: 100px;
+      padding: 8px 16px;
+      width: fit-content;
+    }
+    .c5 .c5-date-pill span {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.06em;
+    }
+    .c5 .c5-bottom {
+      padding: 0 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .c5 .c5-mostra {
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.35);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .c5 .c5-arrow {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,94,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FF5E00;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Clippa News — Conceitos visuais</h1>
+
+<div class="row">
+
+  <!-- ── CONCEITO 1: PLACAR DIGITAL ── -->
+  <div class="concept-wrap">
+    <div class="concept-label">1 — Placar Digital</div>
+    <div class="story c1">
+      <div class="top-bar">
+        <div class="logo">[CLIPPA<span>]</span> NEWS</div>
+        <div class="live-dot">AO VIVO</div>
+      </div>
+      <div class="title">▸ AGENDA DA SEMANA</div>
+      <div class="scoreboard">
+        <div class="sb-header">
+          <span>DATA</span>
+          <span>EVENTO</span>
+        </div>
+        <div class="sb-row">
+          <div class="sb-date">23–29<br>MAR</div>
+          <div class="sb-event"><span class="sb-flag">🇺🇸</span>PREMIER PADEL MIAMI P1</div>
+        </div>
+        <div class="sb-row">
+          <div class="sb-date">15–29<br>MAR</div>
+          <div class="sb-event"><span class="sb-flag">🇺🇸</span>ATP + WTA MASTERS 1000 MIAMI OPEN</div>
+        </div>
+        <div class="sb-row">
+          <div class="sb-date">24–29<br>MAR</div>
+          <div class="sb-event"><span class="sb-flag">🇧🇷</span>ITF BT400 BALNEÁRIO CAMBORIÚ</div>
+        </div>
+      </div>
+      <div class="bottom">
+        <span>A CLIPPA TE MOSTRA ›</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONCEITO 2: BREAKING NEWS ── -->
+  <div class="concept-wrap">
+    <div class="concept-label">2 — Breaking News</div>
+    <div class="story c2">
+      <div class="breaking-top">
+        <div class="breaking-badge">⚡ URGENTE</div>
+        <div class="breaking-text">CLIPPA NEWS &nbsp;·&nbsp; CLIPPA NEWS &nbsp;·&nbsp; CLIPPA NEWS</div>
+      </div>
+      <div class="main-area">
+        <div class="news-logo">[CLIPPA<em>]</em></div>
+        <div class="news-sub">Sports News Network</div>
+        <div class="headline">O que vai<br>rolar essa<br>semana</div>
+        <div class="news-card">
+          <div class="news-stripe"></div>
+          <div class="news-body">
+            <div class="news-date">23–29 MAR &nbsp;<span class="news-flag">🇺🇸</span></div>
+            <div class="news-title">Premier Padel Miami P1</div>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="news-stripe"></div>
+          <div class="news-body">
+            <div class="news-date">15–29 MAR &nbsp;<span class="news-flag">🇺🇸</span></div>
+            <div class="news-title">ATP + WTA Masters 1000 Miami Open</div>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="news-stripe"></div>
+          <div class="news-body">
+            <div class="news-date">24–29 MAR &nbsp;<span class="news-flag">🇧🇷</span></div>
+            <div class="news-title">ITF BT400 Balneário Camboriú</div>
+          </div>
+        </div>
+      </div>
+      <div class="ticker">
+        <div class="ticker-inner">
+          A CLIPPA TE MOSTRA &nbsp;·&nbsp; REPLAY DOS SEUS LANCES &nbsp;·&nbsp; PLACAR DIGITAL &nbsp;·&nbsp; TRANSMISSÃO AO VIVO &nbsp;·&nbsp; A CLIPPA TE MOSTRA &nbsp;·&nbsp; REPLAY DOS SEUS LANCES &nbsp;·&nbsp; PLACAR DIGITAL &nbsp;·&nbsp; TRANSMISSÃO AO VIVO &nbsp;·&nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONCEITO 3: DOIS PAÍSES ── -->
+  <div class="concept-wrap">
+    <div class="concept-label">3 — Dois Países</div>
+    <div class="story c3">
+      <div class="c3-header">
+        <div class="c3-logo">[CLIPPA<span>] NEWS</span></div>
+        <div class="c3-week">Semana esportiva</div>
+      </div>
+      <div style="background:#1a1a1a;padding:10px 18px;">
+        <div style="font-size:0.6rem;font-weight:800;color:#fff;letter-spacing:0.18em;text-transform:uppercase;">O QUE VAI ROLAR ESSA SEMANA</div>
+      </div>
+      <div class="split">
+        <div class="side side-left">
+          <div class="side-flag">🇺🇸</div>
+          <div class="side-country">Estados Unidos</div>
+          <div class="divider-h"></div>
+          <div class="event-item">
+            <div class="ev-date">23–29 MAR</div>
+            <div class="ev-name">Premier Padel Miami P1</div>
+          </div>
+          <div class="divider-h"></div>
+          <div class="event-item">
+            <div class="ev-date">15–29 MAR</div>
+            <div class="ev-name">ATP + WTA Masters 1000 Miami Open</div>
+          </div>
+        </div>
+        <div class="side side-right">
+          <div class="side-flag">🇧🇷</div>
+          <div class="side-country">Brasil</div>
+          <div class="divider-h"></div>
+          <div class="event-item">
+            <div class="ev-date">24–29 MAR</div>
+            <div class="ev-name">ITF BT400 Balneário Camboriú</div>
+          </div>
+        </div>
+      </div>
+      <div class="c3-footer">
+        <span>A CLIPPA TE MOSTRA →</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONCEITO 4: INGRESSO ── -->
+  <div class="concept-wrap">
+    <div class="concept-label">4 — Ingresso</div>
+    <div class="story c4">
+      <div class="c4-logo">[CLIPPA<span>] NEWS</span></div>
+      <div class="c4-title">▸ Agenda da Semana</div>
+
+      <div class="ticket">
+        <div class="ticket-left">
+          <div class="t-day">23</div>
+          <div class="t-to">até</div>
+          <div class="t-day">29</div>
+          <div class="t-month">MAR</div>
+        </div>
+        <div class="ticket-right">
+          <div class="t-flag">🇺🇸</div>
+          <div class="t-name">Premier Padel Miami P1</div>
+          <div class="t-cat">Padel · Miami, EUA</div>
+        </div>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-left">
+          <div class="t-day">15</div>
+          <div class="t-to">até</div>
+          <div class="t-day">29</div>
+          <div class="t-month">MAR</div>
+        </div>
+        <div class="ticket-right">
+          <div class="t-flag">🇺🇸</div>
+          <div class="t-name">ATP + WTA Masters 1000 Miami Open</div>
+          <div class="t-cat">Tênis · Miami, EUA</div>
+        </div>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-left">
+          <div class="t-day">24</div>
+          <div class="t-to">até</div>
+          <div class="t-day">29</div>
+          <div class="t-month">MAR</div>
+        </div>
+        <div class="ticket-right">
+          <div class="t-flag">🇧🇷</div>
+          <div class="t-name">ITF BT400 Balneário Camboriú</div>
+          <div class="t-cat">Beach Tennis · Brasil</div>
+        </div>
+      </div>
+
+      <div class="c4-footer">
+        <span>A Clippa te mostra →</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONCEITO 5: UM EVENTO POR SLIDE ── -->
+  <div class="concept-wrap">
+    <div class="concept-label">5 — Um evento por slide</div>
+    <div class="story c5">
+      <div class="bg-number">01</div>
+      <div class="c5-top">
+        <div class="c5-logo">[CLIPPA<span>] NEWS</span></div>
+        <div class="slide-counter">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+      <div class="c5-main">
+        <div class="c5-tag">⚡ Evento da semana #1</div>
+        <div class="c5-event">Premier<br>Padel<br><em>Miami P1</em></div>
+        <div class="c5-location">🇺🇸 Miami, Estados Unidos</div>
+        <div class="c5-date-pill">
+          <span>23 → 29 MAR</span>
+        </div>
+      </div>
+      <div class="c5-bottom">
+        <div class="c5-mostra">A Clippa te mostra</div>
+        <div class="c5-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
