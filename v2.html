@@ -413,6 +413,13 @@
       </div>
     </div>
 
+    <div class="gap-box gap-pos" id="contrib-box" style="margin-top:4px">
+      <span class="gl">Contribuição por quadra ao servidor</span>
+      <span class="gv" id="r-contrib-por-quadra">—</span>
+      <span class="gl" style="margin-top:6px;display:block;font-size:0.78rem;opacity:0.75" id="r-contrib-total-label">× quadras =</span>
+      <span class="gv" id="r-contrib-total" style="font-size:1rem">—</span>
+    </div>
+
     <div class="divider"></div>
 
     <div class="info-row">
@@ -618,6 +625,11 @@
     document.getElementById('r-per-court').textContent      = fmt(custoPorQuadra) + '/quad';
     document.getElementById('r-impl').textContent           = fmt(implTotal);
     document.getElementById('r-impl-per-court').textContent = fmt(implPrice) + '/quad';
+
+    const contribuicaoPorQuadra = implPrice - custoPorQuadra;
+    document.getElementById('r-contrib-por-quadra').textContent = fmt(contribuicaoPorQuadra) + '/quad';
+    document.getElementById('r-contrib-total-label').textContent = `× ${courts} quad${courts>1?'s':''} =`;
+    document.getElementById('r-contrib-total').textContent = fmt(contribuicaoPorQuadra * courts);
     document.getElementById('r-monthly').textContent        = fmt(monthlyTotal) + '/mês';
     document.getElementById('r-contract12').textContent     = fmt(monthlyTotal * 12);
     document.getElementById('r-contract24').textContent     = fmt(monthlyTotal * 24);
