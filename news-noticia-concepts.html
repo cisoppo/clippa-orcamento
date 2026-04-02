@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clippa News — Conceitos Notícia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #111;
+      font-family: 'Exo 2', sans-serif;
+      padding: 40px 20px 60px;
+      min-width: 1700px;
+    }
+    h1 {
+      color: #fff;
+      text-align: center;
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-bottom: 32px;
+    }
+    .row {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .concept-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .concept-label {
+      color: #FF5E00;
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      text-align: center;
+    }
+    .story {
+      width: 300px;
+      height: 533px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════════
+       FOTO SIMULADA (placeholder colorido)
+    ══════════════════════════════════════════ */
+    .fake-photo {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #2a1500 0%, #7a3000 40%, #b84500 70%, #3a1800 100%);
+      position: absolute;
+      top: 0; left: 0;
+    }
+    /* simula pessoas/figuras na foto */
+    .fake-photo::before {
+      content: '';
+      position: absolute;
+      bottom: 30%; left: 10%;
+      width: 80%; height: 55%;
+      background: radial-gradient(ellipse at 30% 80%, rgba(255,140,60,0.35) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 80%, rgba(255,100,20,0.25) 0%, transparent 50%);
+    }
+    .fake-photo-label {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: 700;
+      z-index: 10;
+    }
+
+    /* ══════════════════════════════════════════
+       CONCEITO 1 — GRADIENTE CLÁSSICO
+       (igual referência: foto topo, fade p/ preto)
+    ══════════════════════════════════════════ */
+    .c1 { background: #0d0d0d; }
+    .c1 .photo-area {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 55%;
+    }
+    .c1 .photo-area .fake-photo { border-radius: 0; }
+    .c1 .photo-area::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 70%;
+      background: linear-gradient(to bottom, transparent, #0d0d0d);
+    }
+    .c1 .content {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 20px 20px 24px;
+    }
+    .c1 .tag-pill {
+      display: inline-block;
+      background: rgba(255,94,0,0.15);
+      border: 1px solid rgba(255,94,0,0.4);
+      color: #FF5E00;
+      font-size: 0.55rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+    }
+    .c1 .headline {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .c1 .headline em { color: #FF5E00; font-style: normal; }
+    .c1 .source-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 16px;
+    }
+    .c1 .source-icon {
+      width: 18px; height: 18px;
+      border-radius: 4px;
+      background: #FF5E00;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem;
+    }
+    .c1 .source-text {
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.4);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+    .c1 .logo-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .c1 .logo-sm {
+      font-size: 0.75rem;
+      font-weight: 900;
+      color: #fff;
+    }
+    .c1 .logo-sm em { color: #FF5E00; font-style: normal; }
+    .c1 .read-more {
+      font-size: 0.58rem;
+      font-weight: 800;
+      color: #FF5E00;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════════
+       CONCEITO 2 — CORTE DIAGONAL
+    ══════════════════════════════════════════ */
+    .c2 { background: #0a0a0a; }
+    .c2 .photo-area {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 50%;
+      clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+    }
+    .c2 .photo-area .fake-photo { border-radius: 0; }
+    .c2 .content {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 18px 20px 22px;
+      height: 55%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .c2 .event-ref {
+      font-size: 0.55rem;
+      font-weight: 800;
+      color: #FF5E00;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .c2 .event-ref::before {
+      content: '';
+      width: 20px; height: 2px;
+      background: #FF5E00;
+    }
+    .c2 .headline {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .c2 .body-text {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .c2 .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .c2 .logo-sm {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: #fff;
+    }
+    .c2 .logo-sm em { color: #FF5E00; font-style: normal; }
+    .c2 .tag-chip {
+      background: #FF5E00;
+      color: #fff;
+      font-size: 0.52rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      padding: 4px 10px;
+      border-radius: 100px;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════════
+       CONCEITO 3 — FOTO LATERAL DIREITA
+    ══════════════════════════════════════════ */
+    .c3 { background: #0a0a0a; }
+    .c3 .photo-area {
+      position: absolute;
+      top: 0; right: 0;
+      width: 55%; height: 100%;
+    }
+    .c3 .photo-area .fake-photo { border-radius: 0; }
+    .c3 .photo-area::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 70%;
+      background: linear-gradient(to right, #0a0a0a, transparent);
+      z-index: 1;
+    }
+    .c3 .content {
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 65%;
+      padding: 24px 16px 22px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 2;
+    }
+    .c3 .logo-sm {
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .c3 .logo-sm em { color: #FF5E00; font-style: normal; }
+    .c3 .mid { }
+    .c3 .tag-pill {
+      display: inline-block;
+      background: #FF5E00;
+      color: #fff;
+      font-size: 0.52rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      padding: 4px 10px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .c3 .headline {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .c3 .body-text {
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.55;
+    }
+    .c3 .bottom-tag {
+      font-size: 0.55rem;
+      color: rgba(255,94,0,0.6);
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════════
+       CONCEITO 4 — POLAROID / CARD FOTO
+    ══════════════════════════════════════════ */
+    .c4 { background: #0d0d0d; display: flex; flex-direction: column; padding: 22px 18px 20px; gap: 12px; }
+    .c4 .top { display: flex; justify-content: space-between; align-items: center; }
+    .c4 .logo-sm { font-size: 0.8rem; font-weight: 900; color: #fff; }
+    .c4 .logo-sm em { color: #FF5E00; font-style: normal; }
+    .c4 .tag-chip {
+      background: rgba(255,94,0,0.15);
+      border: 1px solid rgba(255,94,0,0.35);
+      color: #FF5E00;
+      font-size: 0.52rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      padding: 4px 10px;
+      border-radius: 100px;
+      text-transform: uppercase;
+    }
+    .c4 .photo-card {
+      background: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 200px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .c4 .photo-card .fake-photo { border-radius: 0; }
+    .c4 .photo-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7));
+    }
+    .c4 .photo-caption {
+      position: absolute;
+      bottom: 10px; left: 12px;
+      z-index: 2;
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+    .c4 .headline {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    .c4 .headline em { color: #FF5E00; font-style: normal; }
+    .c4 .body-text {
+      font-size: 0.62rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.6;
+    }
+    .c4 .bottom {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .c4 .source {
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.25);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+    .c4 .read-chip {
+      background: #FF5E00;
+      color: #fff;
+      font-size: 0.52rem;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 100px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════════
+       CONCEITO 5 — MANCHETE BOLD (sem foto grande)
+    ══════════════════════════════════════════ */
+    .c5 { background: #0d0d0d; display: flex; flex-direction: column; padding: 26px 22px 22px; }
+    .c5 .top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+    .c5 .logo-sm { font-size: 0.85rem; font-weight: 900; color: #fff; line-height: 1.15; }
+    .c5 .logo-sm em { color: #FF5E00; font-style: normal; }
+    .c5 .date-badge {
+      background: rgba(255,94,0,0.1);
+      border: 1px solid rgba(255,94,0,0.3);
+      color: #FF5E00;
+      font-size: 0.55rem;
+      font-weight: 800;
+      padding: 5px 10px;
+      border-radius: 8px;
+      letter-spacing: 0.08em;
+    }
+    .c5 .photo-strip {
+      width: 100%;
+      height: 130px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 18px;
+      flex-shrink: 0;
+    }
+    .c5 .photo-strip .fake-photo { border-radius: 0; }
+    .c5 .photo-strip::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, #0d0d0d 0%, transparent 30%, transparent 70%, #0d0d0d 100%);
+    }
+    .c5 .category {
+      font-size: 0.58rem;
+      font-weight: 800;
+      color: #FF5E00;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .c5 .headline {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      flex: 1;
+    }
+    .c5 .headline em { color: #FF5E00; font-style: normal; }
+    .c5 .divider { width: 40px; height: 2px; background: #FF5E00; margin-bottom: 12px; }
+    .c5 .body-text {
+      font-size: 0.63rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .c5 .bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+    .c5 .source { font-size: 0.55rem; color: rgba(255,255,255,0.2); font-weight: 600; }
+    .c5 .arrow-btn {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,94,0,0.5);
+      color: #FF5E00;
+      font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Clippa News — Conceitos slide de notícia</h1>
+
+<div class="row">
+
+  <!-- 1: GRADIENTE CLÁSSICO -->
+  <div class="concept-wrap">
+    <div class="concept-label">1 — Gradiente clássico</div>
+    <div class="story c1">
+      <div class="photo-area">
+        <div class="fake-photo"></div>
+        <div class="fake-photo-label">📷 foto do evento</div>
+      </div>
+      <div class="content">
+        <div class="tag-pill">⚡ Premier Padel Newgiza P2</div>
+        <div class="headline">Alto nível nas<br>disputas e <em>celebridade</em><br>em quadra</div>
+        <div class="source-row">
+          <div class="source-icon">📎</div>
+          <div class="source-text">clippanews.com.br</div>
+        </div>
+        <div class="logo-row">
+          <div class="logo-sm">[CLIPPA<em>]</em> NEWS</div>
+          <div class="read-more">Ver mais →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2: CORTE DIAGONAL -->
+  <div class="concept-wrap">
+    <div class="concept-label">2 — Corte diagonal</div>
+    <div class="story c2">
+      <div class="photo-area">
+        <div class="fake-photo"></div>
+        <div class="fake-photo-label">📷 foto do evento</div>
+      </div>
+      <div class="content">
+        <div class="event-ref">Premier Padel Newgiza P2</div>
+        <div class="headline">Alto nível e<br>celebridades<br>em quadra</div>
+        <div class="body-text">O torneio reuniu os maiores nomes do padel mundial com disputas acirradas e presença de personalidades.</div>
+        <div class="bottom">
+          <div class="logo-sm">[CLIPPA<em>]</em> NEWS</div>
+          <div class="tag-chip">Cobertura</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3: FOTO LATERAL -->
+  <div class="concept-wrap">
+    <div class="concept-label">3 — Foto lateral</div>
+    <div class="story c3">
+      <div class="photo-area">
+        <div class="fake-photo"></div>
+        <div class="fake-photo-label" style="font-size:0.45rem">📷 foto</div>
+      </div>
+      <div class="content">
+        <div class="logo-sm">[CLIPPA]<br><em>NEWS</em></div>
+        <div class="mid">
+          <div class="tag-pill">Cobertura</div>
+          <div class="headline">Alto nível<br>e celebs<br>em quadra</div>
+          <div class="body-text">Premier Padel Newgiza P2 reuniu os melhores do mundo em Gizé, Egito.</div>
+        </div>
+        <div class="bottom-tag">13–19 ABR · Gizé, Egito 🇪🇬</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4: POLAROID -->
+  <div class="concept-wrap">
+    <div class="concept-label">4 — Card foto</div>
+    <div class="story c4">
+      <div class="top">
+        <div class="logo-sm">[CLIPPA<em>]</em> NEWS</div>
+        <div class="tag-chip">Cobertura</div>
+      </div>
+      <div class="photo-card">
+        <div class="fake-photo"></div>
+        <div class="fake-photo-label">📷 foto do evento</div>
+        <div class="photo-caption">Premier Padel Newgiza P2 · Gizé, Egito 🇪🇬</div>
+      </div>
+      <div class="headline">Alto nível nas disputas e <em>celebridades</em> em quadra</div>
+      <div class="body-text">O torneio reuniu os maiores nomes do padel mundial com presença de personalidades.</div>
+      <div class="bottom">
+        <div class="source">clippanews.com.br</div>
+        <div class="read-chip">Ver mais →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5: MANCHETE BOLD -->
+  <div class="concept-wrap">
+    <div class="concept-label">5 — Manchete bold</div>
+    <div class="story c5">
+      <div class="top">
+        <div class="logo-sm">[CLIPPA]<br>NEWS</div>
+        <div class="date-badge">13–19 ABR</div>
+      </div>
+      <div class="photo-strip">
+        <div class="fake-photo"></div>
+        <div class="fake-photo-label">📷 foto</div>
+      </div>
+      <div class="category">Premier Padel · Newgiza P2</div>
+      <div class="headline">Alto nível e <em>celebridades</em> dominam as quadras no Egito</div>
+      <div class="divider"></div>
+      <div class="body-text">O torneio reuniu os maiores nomes do padel mundial em Gizé com disputas acirradas e presença de personalidades.</div>
+      <div class="bottom">
+        <div class="source">clippanews.com.br</div>
+        <div class="arrow-btn">›</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
