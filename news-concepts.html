@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clippa News — Conceitos</title>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,600;0,700;0,800;0,900;1,900&family=Oswald:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -43,6 +44,23 @@
       letter-spacing: 0.18em;
       text-align: center;
     }
+    .dl-btn {
+      margin-top: 4px;
+      background: #FF5E00;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .dl-btn:hover { background: #cc4b00; }
+    .dl-btn:disabled { background: #555; cursor: wait; }
 
     /* ── STORY BASE ── */
     .story {
@@ -719,7 +737,8 @@
   <!-- ── CONCEITO 4: INGRESSO ── -->
   <div class="concept-wrap">
     <div class="concept-label">4 — Ingresso</div>
-    <div class="story c4">
+    <button class="dl-btn" onclick="baixar('story-4','clippa-news-conceito4')">⬇ Baixar PNG</button>
+    <div class="story c4" id="story-4">
       <div class="c4-logo">[CLIPPA<span>] NEWS</span></div>
       <div class="c4-title">▸ Agenda da Semana</div>
 
@@ -774,7 +793,8 @@
   <!-- ── CONCEITO 5: UM EVENTO POR SLIDE ── -->
   <div class="concept-wrap">
     <div class="concept-label">5 — Um evento por slide</div>
-    <div class="story c5">
+    <button class="dl-btn" onclick="baixar('story-5','clippa-news-conceito5')">⬇ Baixar PNG</button>
+    <div class="story c5" id="story-5">
       <div class="bg-number">01</div>
       <div class="c5-top">
         <div class="c5-logo">[CLIPPA<span>] NEWS</span></div>
@@ -801,6 +821,26 @@
   </div>
 
 </div>
+
+<script>
+  async function baixar(id, nome) {
+    const btn = event.target;
+    btn.disabled = true;
+    btn.textContent = 'Gerando...';
+    const el = document.getElementById(id);
+    const canvas = await html2canvas(el, {
+      scale: 3,
+      useCORS: true,
+      backgroundColor: null
+    });
+    const link = document.createElement('a');
+    link.download = nome + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    btn.disabled = false;
+    btn.textContent = '⬇ Baixar PNG';
+  }
+</script>
 
 </body>
 </html>
